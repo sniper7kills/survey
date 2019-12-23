@@ -1,0 +1,18 @@
+{
+    "name": "sniper7kills/survey",
+    "description": "Survey package for Laravel",
+    "type": "library",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sniper7Kills\\Survey\\SurveyServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Sniper7Kills\\Survey\\": "src/"
+        }
+    }
+}
