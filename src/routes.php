@@ -13,20 +13,3 @@ Route::prefix('survey')
         Route::get('/{survey}/results', 'SurveyController@results')->name('results');
         Route::get('/{survey}/results/{question}', 'SurveyController@resultsQuestion')->name('results.question');
 });
-
-/*
- * Api Routes
- */
-Route::prefix('api/survey')
-    ->name('api.survey.')
-    ->namespace('\Sniper7Kills\Survey\Controllers\Api')
-    ->middleware('api')
-    ->group(function() {
-        Route::apiResources([
-            'answers' => 'AnswerController',
-            'options' => 'OptionController',
-            'questions' => 'QuestionController',
-            'responses' => 'ResponseController',
-            'surveys' => 'SurveyController',
-        ]);
-});

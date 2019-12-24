@@ -16,9 +16,7 @@ class SurveyAdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guest())
-            return redirect('/');
-        if(Auth::user()->id != 1)
+        if(Auth::guest() || Auth::user()->id != 1)
             return redirect('/');
 
         return $next($request);
