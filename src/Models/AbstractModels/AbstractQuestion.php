@@ -22,7 +22,10 @@ abstract class AbstractQuestion extends Model
      * 
      * @var array
      */
-    protected $attributes = ['type' => "text"];
+    protected $attributes = [
+        'type' => "text",
+        'required' => True
+    ];
     
     /**  
      * The attributes that should be cast to native types.
@@ -34,6 +37,7 @@ abstract class AbstractQuestion extends Model
         'survey_id' => 'integer',
         'question' => 'string',
         'type' => 'string',
+        'required' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'
@@ -47,7 +51,8 @@ abstract class AbstractQuestion extends Model
     protected $fillable = [
         'survey_id',
         'question',
-        'type'
+        'type',
+        'required'
     ];
     
     public function survey()

@@ -13,20 +13,32 @@
     @csrf
     @foreach($survey->questions as $question)
         <b><i>{{$question->id}}</i> - {{$question->question}}</b><br />
+        @if($question->required)
+            <small>Required</small><br />
+        @endif
         @if($question->type == "text")
-            <textarea name="question-{{$question->id}}" value="{{old($question->id)}}"></textarea>
+            <textarea name="question-{{$question->id}}" value="{{old("question-".$question->id)}}"></textarea>
         @elseif($question->type == "radio")
             @foreach($question->options as $option)
-                <b>{{$option->value}}</b><input type="radio" name="question-{{$question->id}}" value="{{$option->id}}" @if(old($question->id)==$option->id) selected @endif>
+                <b>{{$option->value}}</b>
+                <input type="radio"
+                       name="question-{{$question->id}}"
+                       value="{{$option->id}}"
+                       @if(old("question-".$question->id)==$option->id) selected @endif>
             @endforeach
         @elseif($question->type == "checkbox")
             @foreach($question->options as $option)
-                <b>{{$option->value}}</b><input type="checkbox" name="question-{{$question->id}}[]" value="{{$option->id}}" @if(is_array(old($question->id)) && in_array($option->id, old($question->id))) checked @endif>
+                <b>{{$option->value}}</b>
+                <input type="checkbox"
+                       name="question-{{$question->id}}[]"
+                       value="{{$option->id}}"
+                       @if(is_array(old("question-".$question->id)) && in_array($option->id, old("question-".$question->id))) checked @endif>
             @endforeach
         @elseif($question->type == "select")
             <select name="question-{{$question->id}}">
+                <option>Select...</option>
                 @foreach($question->options as $option)
-                    <option value="{{$option->id}}" @if(old($question->id)==$option->id) selected @endif>{{$option->value}}</option>
+                    <option value="{{$option->id}}" @if(old("question-".$question->id)==$option->id) checked @endif>{{$option->value}}</option>
                 @endforeach
             </select>
         @endif

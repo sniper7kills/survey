@@ -95,18 +95,21 @@ class SurveyController extends Controller
 
         foreach($survey->questions as $question)
         {
-            $answer = new Answer();
-            $answer->question()->associate($question);
-            $response->answers()->save($answer);
-            if($question->type == "text") {
-                $answer->answer = $request["question-".$question->id];
-                $answer->save();
-            }elseif ($question->type == "radio" || $question->type == "select"){
-                $answer->options()->attach($request["question-".$question->id]);
-            }elseif ($question->type == "checkbox"){
-                foreach($request["question-".$question->id] as $optionId)
-                {
-                    $answer->options()->attach($optionId);
+            if(key_exists("question".$question->id,$request))
+            {
+                $answer = new Answer();
+                $answer->question()->associate($question);
+                $response->answers()->save($answer);
+                if($question->type == "text") {
+                    $answer->answer = $request["question-".$question->id];
+                    $answer->save();
+                }elseif ($question->type == "radio" || $question->type == "select"){
+                    $answer->options()->attach($request["question-".$question->id]);
+                }elseif ($question->type == "checkbox"){
+                    foreach($request["question-".$question->id] as $optionId)
+                    {
+                        $answer->options()->attach($optionId);
+                    }
                 }
             }
         }

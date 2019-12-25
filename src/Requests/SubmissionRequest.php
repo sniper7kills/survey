@@ -30,6 +30,8 @@ class SubmissionRequest extends FormRequest
         {
             if($question->required)
                 $validationArray["question-".$question->id][] = 'required';
+            else
+                $validationArray["question-".$question->id][] = 'nullable';
             if($question->type == "text")
                 $validationArray["question-".$question->id][] = 'string';
             if($question->type == "select" || $question->type == "radio"){
