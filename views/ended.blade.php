@@ -1,1 +1,0 @@
-<h1>Sorry, Survey is closed!</h1>
