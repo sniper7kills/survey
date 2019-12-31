@@ -42,6 +42,7 @@ abstract class AbstractSurvey extends Model
         'slug' => 'string',
         'description' => 'string',
         'guests' => 'boolean',
+        'end_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'

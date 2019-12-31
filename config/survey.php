@@ -19,5 +19,13 @@ return [
      *
      * Valid options: slug, id
      */
-    'identifier' => 'slug'
+    'identifier' => 'slug',
+
+    /**
+     * Admin Middleware to use
+     *
+     * This should be a middleware that you create;
+     * The middleware included in this package only allows models with an ID of 1
+     */
+    'middleware' => \Sniper7Kills\Survey\Middleware\SurveyAdminMiddleware::class
 ];

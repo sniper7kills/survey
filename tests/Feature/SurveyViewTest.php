@@ -3,6 +3,7 @@
 
 namespace Sniper7Kills\Survey\Tests\Feature;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Sniper7Kills\Survey\Models\Option;
@@ -187,6 +188,26 @@ class SurveyViewTest extends TestCase
             ->assertStatus(403);
 
         $this->assertCount(1,$survey->responses);
+    }
+
+    public function test_survey_not_available_after_end_time()
+    {
+        $survey = new Survey(['name'=>'Test Survey', 'description'=>'Simple Survey Test', 'end_at' => Carbon::now()]);
+        $survey->save();
+
+        $root_path = Config::get('survey.root_path');
+        $this->get('/'.$root_path.'/'.$survey->getSurveyIdentifier(),[])
+            ->assertStatus(403);
+    }
+
+    public function test_survey_is_available_before_end_time()
+    {
+        $survey = new Survey(['name'=>'Test Survey', 'description'=>'Simple Survey Test', 'end_at' => Carbon::now()->addHour()]);
+        $survey->save();
+
+        $root_path = Config::get('survey.root_path');
+        $this->get('/'.$root_path.'/'.$survey->getSurveyIdentifier(),[])
+            ->assertStatus(200);
     }
 }
 class SurveyViewTestFakeUser extends Model implements \Illuminate\Contracts\Auth\Authenticatable

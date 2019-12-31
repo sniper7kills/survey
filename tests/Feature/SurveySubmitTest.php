@@ -2,6 +2,7 @@
 
 
 namespace Sniper7Kills\Survey\Tests\Feature;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Sniper7Kills\Survey\Models\Question;
@@ -154,6 +155,40 @@ class SurveySubmitTest extends TestCase
             ->assertStatus(403);
 
         $this->assertCount(1,$survey->responses);
+    }
+
+    public function test_survey_not_submittable_after_end_time()
+    {
+        $survey = new Survey(['name'=>'Test guests can not submit same survey twice', 'description'=>'Simple Survey Test', 'end_at' => Carbon::now()]);
+        $survey->save();
+
+        $question1 = new Question(['question'=>'Question 1', 'type'=>'text']);
+        $survey->questions()->save($question1);
+
+        $submitData = [
+            $question1->id => 'Sample Data'
+        ];
+
+        $root_path = Config::get('survey.root_path');
+        $this->post('/'.$root_path.'/'.$survey->getSurveyIdentifier(),$submitData)
+            ->assertStatus(403);
+    }
+
+    public function test_survey_is_submittable_before_end_time()
+    {
+        $survey = new Survey(['name'=>'Test guests can not submit same survey twice', 'description'=>'Simple Survey Test', 'end_at' => Carbon::now()->addHour()]);
+        $survey->save();
+
+        $question1 = new Question(['question'=>'Question 1', 'type'=>'text']);
+        $survey->questions()->save($question1);
+
+        $submitData = [
+            $question1->id => 'Sample Data'
+        ];
+
+        $root_path = Config::get('survey.root_path');
+        $this->post('/'.$root_path.'/'.$survey->getSurveyIdentifier(),$submitData)
+            ->assertStatus(200);
     }
 }
 class SurveySubmitTestFakeUser extends Model implements \Illuminate\Contracts\Auth\Authenticatable
