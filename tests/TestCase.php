@@ -16,6 +16,8 @@ class TestCase extends OTestCast
         $this->loadLaravelMigrations(['--database' => 'testbench']);
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
+        $this->withFactories(__DIR__ . '/../database/factories');
+
         Schema::create('test-users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->rememberToken();

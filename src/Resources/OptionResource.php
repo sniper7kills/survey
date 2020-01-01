@@ -4,7 +4,7 @@ namespace Sniper7Kills\Survey\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuestionResource extends JsonResource
+class OptionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,8 @@ class QuestionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'question' => $this->question,
-            'type' => $this->type,
-            'required' => $this->required,
+            'value' => $this->value,
             'order' => $this->order,
-            'options' => OptionResource::collection($this->options)
         ];
     }
 }

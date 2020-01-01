@@ -17,14 +17,23 @@ class Survey extends \Sniper7Kills\Survey\Models\AbstractModels\AbstractSurvey
 
     /**
      * Method to ensure new Survey's get a unique UUID
+     * And assign the initial URL attribute to what the config specifies
      */
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function (Survey $model) {
+            // Create UUID
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
+            // Set URL Attribute
+            $model->setAttribute('url',$model->getAttribute(Config::get('survey.identifier','slug')));
         });
+    }
+
+    public function questions()
+    {
+        return parent::questions()->orderBy('order')->orderBy('question');
     }
 
     /**
@@ -44,13 +53,39 @@ class Survey extends \Sniper7Kills\Survey\Models\AbstractModels\AbstractSurvey
      */
     public function getRouteKeyName()
     {
-        return Config::get('survey.identifier','slug');
+        return 'url';
     }
 
-    public function getSurveyIdentifier()
+    /**
+     * Publish the survey so its available
+     */
+    public function publishSurvey()
     {
-        return $this->getRouteKey();
+        $this->update(['available_at'=>$this->freshTimestamp()]);
     }
 
+    /**
+     * Unpublish the survey so it is no longer available
+     */
+    public function unpublishSurvey()
+    {
+        $this->update(['available_at'=>null]);
+    }
+
+    /**
+     * Set the URL for the survey as the ID
+     */
+    public function setUrlAsId()
+    {
+        $this->update(['url'=> $this->id]);
+    }
+
+    /**
+     * Set the URL for the survey as the Slug
+     */
+    public function setUrlAsSlug()
+    {
+        $this->update(['url'=> $this->slug]);
+    }
 
 }

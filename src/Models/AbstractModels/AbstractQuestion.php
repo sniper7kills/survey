@@ -45,6 +45,7 @@ abstract class AbstractQuestion extends Model
         'question' => 'string',
         'type' => 'string',
         'required' => 'boolean',
+        'order' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'
@@ -59,7 +60,8 @@ abstract class AbstractQuestion extends Model
         'survey_id',
         'question',
         'type',
-        'required'
+        'required',
+        'order'
     ];
     
     public function survey()

@@ -18,8 +18,11 @@ class SurveyAdminMiddleware
     {
         if(Auth::guest())
             return abort(403);
-        if(Auth::user()->id > 1)
+        if(!method_exists(Auth::user(), 'isASurveyAdmin'))
             return abort(403);
-        return $next($request);
+        if(Auth::user()->isASurveyAdmin())
+            return $next($request);
+
+        return abort(403);
     }
 }

@@ -40,9 +40,12 @@ abstract class AbstractSurvey extends Model
         'id' => 'string',
         'name' => 'string',
         'slug' => 'string',
+        'url' => 'string',
         'description' => 'string',
         'guests' => 'boolean',
-        'end_at' => 'datetime',
+        'identifier' => 'string',
+        'available_at' => 'datetime',
+        'available_until' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'
@@ -57,9 +60,12 @@ abstract class AbstractSurvey extends Model
         'id',
         'name',
         'slug',
+        'url',
         'description',
         'guests',
-        'end_at'
+        'identifier',
+        'available_at',
+        'available_until'
     ];
     
     public function questions()

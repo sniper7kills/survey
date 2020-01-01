@@ -21,6 +21,8 @@ class Question extends \Sniper7Kills\Survey\Models\AbstractModels\AbstractQuesti
 
     public function options()
     {
-        return parent::options()->orderBy('order');
+        return parent::options()
+            ->orderBy('order')
+            ->orderBy('value');
     }
 }

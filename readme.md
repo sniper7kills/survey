@@ -1,5 +1,8 @@
 # Survey Package for Laravel
 
+Simple survey package for Laravel that allows for easy customization of the look and feel of surveys
+due to the lack of any styling included.
+
 ## Installation
 1. Composer 
 2. Publish
@@ -20,13 +23,21 @@ The following command will publish all assets from this package.
 ```shell script
 php artisan vendor:publish --tag=survey-all
 ```
-### Admin Middleware
-The middleware included in this package is very limited, 
-it is **HIGHLY** recommended that you create your own middleware
-to specify which users should have access to the admin area.
+### Admin Contract
+For any Admin Models implement the  `Sniper7Kills\Survey\Contract\SurveyAdmin` contract.
 
-After creating your admin middleware, update the config replacing
-the middleware included with your own.
+Example:
+```php
+class User implements \Sniper7Kills\Survey\Contract\SurveyAdmin
+{
+    public function isASurveyAdmin()
+    {
+        if($this->id == 1)
+            return true;
+        return false;
+    }
+}
+```
 
 ### Updating Migrations
 TODO; if your primary user models use uuid's instead of ints migrations will need to be changed;
@@ -59,6 +70,17 @@ are the only inputs that do not require an option to be created prior to being p
 
 Questions can also be marked as required and submissions will not be accepted without those questions being answered.
 
+### Option Settings
+When creating options, an *order* value can be set; when the options are retrieved for a question
+they will be in increasing order based on their *order* value.
+
+If two values have the same *order* value; they will be retrieved alphabetically.
+
+Options that have no *order* value will be before options with an order value.
+
 ## Future Additions
 While not available yet, there are plans to incorporate API endpoints into the application
 and having VueJS components available for a more fluid interaction.
+
+Another possibility for additions is a multi-select to complement the checkboxes, but
+this addition wouldn't occur until after API and vue resources have been created.
