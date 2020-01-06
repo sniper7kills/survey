@@ -34,12 +34,9 @@ Route::namespace('\\Sniper7Kills\\Survey\\Controllers\\Api')
     ->prefix('api/'.Config::get('survey.root_path','survey'))
     ->name('survey.api.')
     ->group(function(){
-        /**
-         * User Accessible Routes
-         */
-        Route::apiResources([
-            'survey' => 'SurveyController',
-            'question' => 'QuestionController'
-        ]);
+        Route::resource('survey', 'SurveyController');
+        Route::resource('question', 'QuestionController')->except('index');
         Route::resource('publishedSurvey','PublishedSurveyController')->only('store','destroy');
+        Route::resource('responses', 'ResponseController')->except('update');
+        Route::resource('answers', 'AnswerController')->only('store','show');
     });

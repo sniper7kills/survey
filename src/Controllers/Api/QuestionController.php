@@ -6,19 +6,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Sniper7Kills\Survey\Controllers\BaseController;
+use Sniper7Kills\Survey\Middleware\SurveyAdminMiddleware;
 use Sniper7Kills\Survey\Models\Question;
 use Sniper7Kills\Survey\Resources\QuestionResource;
 
 class QuestionController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware(SurveyAdminMiddleware::class)->except('show');
     }
 
     /**
@@ -82,6 +78,8 @@ class QuestionController extends BaseController
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+
+        return response('',204);
     }
 }

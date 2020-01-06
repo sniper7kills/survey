@@ -34,6 +34,42 @@ class PublishedSurveyControllerTest extends TestCase
             ->assertStatus(403);
     }
 
+    public function test_users_can_not_publish_survey()
+    {
+        $admin = new FakeUser();
+        $admin->save();
+        $user = new FakeUser();
+        $user->save();
+        $this->actingAs($user);
+
+        $survey = factory(Survey::class)->create(['available_at'=>null]);
+
+        $data = [
+            'survey_id' => $survey->id
+        ];
+
+        $this->json('post', route('survey.api.publishedSurvey.store'), $data)
+            ->assertStatus(403);
+    }
+
+    public function test_users_can_not_unpublish_survey()
+    {
+        $admin = new FakeUser();
+        $admin->save();
+        $user = new FakeUser();
+        $user->save();
+        $this->actingAs($user);
+
+        $survey = factory(Survey::class)->create(['available_at'=>null]);
+
+        $data = [
+            'survey_id' => $survey->id
+        ];
+
+        $this->json('delete', route('survey.api.publishedSurvey.destroy',['publishedSurvey'=>$survey]))
+            ->assertStatus(403);
+    }
+
     public function test_admins_can_publish_survey()
     {
         $admin = new FakeUser();

@@ -15,7 +15,14 @@ abstract class AbstractResponse extends Model
      * 
      * @var string
      */
-    protected $keyType = 'bigInteger';
+    protected $keyType = 'uuid';
+    
+    /**  
+     * Primary key is non-autoincrementing.
+     * 
+     * @var bool
+     */
+    public $incrementing = false;
     
     /**  
      * The attributes that should be cast to native types.
@@ -23,7 +30,7 @@ abstract class AbstractResponse extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
+        'id' => 'string',
         'survey_id' => 'string',
         'userable_id' => 'integer',
         'userable_type' => 'string',

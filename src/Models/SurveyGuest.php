@@ -10,4 +10,9 @@ class SurveyGuest extends \Sniper7Kills\Survey\Models\AbstractModels\AbstractSur
             'agent' => request()->header('User-Agent')
         ]);
     }
+
+    public function getAuthIdentifier()
+    {
+        return $this->id;
+    }
 }

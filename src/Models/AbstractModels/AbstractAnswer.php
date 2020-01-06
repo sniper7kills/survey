@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 abstract class AbstractAnswer extends Model
 {
     /**  
-     * Primary key type.
+     * Primary key is non-autoincrementing.
      * 
-     * @var string
+     * @var bool
      */
-    protected $keyType = 'bigInteger';
+    public $incrementing = false;
     
     /**  
      * The attributes that should be cast to native types.
@@ -23,8 +23,8 @@ abstract class AbstractAnswer extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'response_id' => 'integer',
+        'id' => 'string',
+        'response_id' => 'string',
         'question_id' => 'string',
         'answer' => 'string',
         'created_at' => 'datetime',
